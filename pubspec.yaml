@@ -7,9 +7,11 @@ environment:
   sdk: '>=3.2.3 <4.0.0'
 
 dependencies:
+  chat_bubbles: ^1.6.0
   firebase_core: ^2.27.0
   flutter:
     sdk: flutter
+  http: ^1.2.0
 
 dev_dependencies:
   flutter_test:
