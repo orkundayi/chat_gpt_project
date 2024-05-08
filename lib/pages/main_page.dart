@@ -81,7 +81,6 @@ class _MainPageState extends State<MainPage> {
                     itemCount: chatList.length,
                     itemBuilder: (context, index) {
                       final ChatModel chat = chatList[index];
-                      final String messageEnding = (chat.messages!.length == 1) ? '' : '...';
                       return Dismissible(
                         key: Key(chat.id),
                         background: Container(
@@ -135,7 +134,9 @@ class _MainPageState extends State<MainPage> {
                                     height: 8.0,
                                   ),
                                   Text(
-                                    chat.messages!.last.content.substring(0, chat.messages!.last.content.length > 34 ? 34 : chat.messages!.last.content.length) + messageEnding,
+                                    chat.messages!.last.content,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
                                     style: const TextStyle(
                                       fontSize: 16.0,
                                     ),
