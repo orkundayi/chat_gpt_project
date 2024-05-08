@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:chat_gpt_project/models/chat_model.dart';
 import 'package:chat_gpt_project/services/firebase_chat_service.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -81,26 +82,23 @@ class _MainPageState extends State<MainPage> {
                     itemCount: chatList.length,
                     itemBuilder: (context, index) {
                       final ChatModel chat = chatList[index];
-                      return Dismissible(
-                        key: Key(chat.id),
-                        background: Container(
-                          margin: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
-                          padding: const EdgeInsets.all(16.0),
-                          alignment: Alignment.centerRight,
-                          decoration: BoxDecoration(
-                            color: Colors.red,
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                          child: const Icon(
-                            Icons.delete,
-                            color: Colors.white,
-                          ),
+                      return Slidable(
+                        endActionPane: ActionPane(
+                          extentRatio: 1 / 3,
+                          motion: const ScrollMotion(),
+                          children: [
+                            SlidableAction(
+                              borderRadius: BorderRadius.circular(12.0),
+                              onPressed: (context) async {
+                                await context.read<FirebaseChatService>().deleteChat(chat.id);
+                                await getUserChats();
+                              },
+                              backgroundColor: Colors.red,
+                              icon: Icons.delete,
+                            ),
+                          ],
                         ),
-                        direction: DismissDirection.endToStart,
-                        onDismissed: (direction) async {
-                          await context.read<FirebaseChatService>().deleteChat(chat.id);
-                          await getUserChats();
-                        },
+                        key: Key(chat.id),
                         child: InkWell(
                           onTap: () {
                             Navigator.of(context).pushNamed(ChatPage.routeName, arguments: {
@@ -114,7 +112,6 @@ class _MainPageState extends State<MainPage> {
                             fit: BoxFit.scaleDown,
                             child: Container(
                               width: MediaQuery.of(context).size.width - 24.0,
-                              margin: const EdgeInsets.symmetric(vertical: 8.0),
                               padding: const EdgeInsets.all(16.0),
                               decoration: BoxDecoration(
                                 color: themeData.colorScheme.primaryContainer.withOpacity(0.8),
