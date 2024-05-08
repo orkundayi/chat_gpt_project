@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -35,7 +37,12 @@ class _ChatGptAppState extends State<ChatGptApp> {
     final status = applicationProvider.status;
     switch (status) {
       case ApplicationStatus.applicationError:
+        Timer.periodic(const Duration(seconds: 5), (timer) async {
+          await _initializeApplication(context);
+          timer.cancel();
+        });
         return Scaffold(
+          backgroundColor: themeData.colorScheme.secondary,
           body: Center(
             child: Lottie.asset(
               'assets/lottie/404.json',

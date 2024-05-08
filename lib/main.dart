@@ -1,13 +1,11 @@
-import 'dart:convert';
-
 import 'package:chat_gpt_project/models/message_data.dart';
 import 'package:chat_gpt_project/services/firebase_chat_service.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+import 'package:flutter/services.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 
 import 'package:provider/provider.dart';
-import 'models/chat_request.dart';
+import 'pages/chat/chat_page.dart';
 import 'services/application_service.dart';
 import 'utils/navigation/init_get_it.dart';
 import 'utils/navigation/navigation_service.dart';
@@ -29,6 +27,9 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+    ]);
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => FirebaseService()),
@@ -38,6 +39,9 @@ class MainApp extends StatelessWidget {
       child: GlobalLoaderOverlay(
         useDefaultLoading: true,
         child: MaterialApp(
+          routes: {
+            ChatPage.routeName: (context) => const ChatPage(),
+          },
           theme: ThemeData.dark(useMaterial3: true),
           navigatorKey: NavigationService.instance.navigatorKey,
           navigatorObservers: [

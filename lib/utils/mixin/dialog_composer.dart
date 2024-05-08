@@ -11,7 +11,7 @@ mixin DialogComposer {
       borderRadius: BorderRadius.circular(8),
       flushbarPosition: FlushbarPosition.BOTTOM,
       flushbarStyle: FlushbarStyle.FLOATING,
-      backgroundColor: themeData.colorScheme.onPrimary.withOpacity(0.1),
+      backgroundColor: themeData.colorScheme.secondary,
       messageText: Text(
         message,
         style: TextStyle(

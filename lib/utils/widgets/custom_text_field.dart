@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 
 class CustomTextField extends StatelessWidget {
-  final String labelText;
+  final Function()? onTap;
+  final String? labelText;
   final bool obscureText;
   final TextEditingController? controller;
+  final bool? expands;
   const CustomTextField({
     Key? key,
-    required this.labelText,
+    this.labelText,
     this.obscureText = false,
+    this.expands = false,
+    this.onTap,
     this.controller,
   }) : super(key: key);
 
@@ -15,9 +19,14 @@ class CustomTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     final ThemeData themeData = Theme.of(context);
     final ColorScheme colorScheme = themeData.colorScheme;
-
+    final onpressed = onTap ?? () {};
     return TextFormField(
+      onTap: onpressed,
+      minLines: expands ?? false ? null : 1,
+      maxLines: expands ?? false ? null : 1,
+      expands: expands ?? false,
       controller: controller,
+      keyboardType: expands ?? false ? TextInputType.text : null,
       obscureText: obscureText,
       style: TextStyle(
         color: colorScheme.onPrimary,

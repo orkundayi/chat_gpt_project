@@ -8,7 +8,7 @@ enum Role {
 class MessageData {
   final Role role;
   final String content;
-  final DateTime? sentTime;
+  DateTime? sentTime;
 
   MessageData({
     required this.role,
