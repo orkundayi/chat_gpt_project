@@ -82,63 +82,66 @@ class _MainPageState extends State<MainPage> {
                     itemCount: chatList.length,
                     itemBuilder: (context, index) {
                       final ChatModel chat = chatList[index];
-                      return Slidable(
-                        endActionPane: ActionPane(
-                          extentRatio: 1 / 3,
-                          motion: const ScrollMotion(),
-                          children: [
-                            SlidableAction(
-                              borderRadius: BorderRadius.circular(12.0),
-                              onPressed: (context) async {
-                                await context.read<FirebaseChatService>().deleteChat(chat.id);
-                                await getUserChats();
-                              },
-                              backgroundColor: Colors.red,
-                              icon: Icons.delete,
-                            ),
-                          ],
-                        ),
-                        key: Key(chat.id),
-                        child: InkWell(
-                          onTap: () {
-                            Navigator.of(context).pushNamed(ChatPage.routeName, arguments: {
-                              'chat': chat,
-                              'callback': () async {
-                                await getUserChats();
-                              },
-                            });
-                          },
-                          child: FittedBox(
-                            fit: BoxFit.scaleDown,
-                            child: Container(
-                              width: MediaQuery.of(context).size.width - 24.0,
-                              padding: const EdgeInsets.all(16.0),
-                              decoration: BoxDecoration(
-                                color: themeData.colorScheme.primaryContainer.withOpacity(0.8),
-                                borderRadius: BorderRadius.circular(10.0),
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 4.0),
+                        child: Slidable(
+                          endActionPane: ActionPane(
+                            extentRatio: 1 / 3,
+                            motion: const ScrollMotion(),
+                            children: [
+                              SlidableAction(
+                                borderRadius: BorderRadius.circular(12.0),
+                                onPressed: (context) async {
+                                  await context.read<FirebaseChatService>().deleteChat(chat.id);
+                                  await getUserChats();
+                                },
+                                backgroundColor: Colors.red,
+                                icon: Icons.delete,
                               ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    chat.name,
-                                    style: const TextStyle(
-                                      fontSize: 18.0,
-                                      fontWeight: FontWeight.bold,
+                            ],
+                          ),
+                          key: Key(chat.id),
+                          child: InkWell(
+                            onTap: () {
+                              Navigator.of(context).pushNamed(ChatPage.routeName, arguments: {
+                                'chat': chat,
+                                'callback': () async {
+                                  await getUserChats();
+                                },
+                              });
+                            },
+                            child: FittedBox(
+                              fit: BoxFit.scaleDown,
+                              child: Container(
+                                width: MediaQuery.of(context).size.width - 24.0,
+                                padding: const EdgeInsets.all(16.0),
+                                decoration: BoxDecoration(
+                                  color: themeData.colorScheme.primaryContainer.withOpacity(0.8),
+                                  borderRadius: BorderRadius.circular(10.0),
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      chat.name,
+                                      style: const TextStyle(
+                                        fontSize: 18.0,
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                     ),
-                                  ),
-                                  const SizedBox(
-                                    height: 8.0,
-                                  ),
-                                  Text(
-                                    chat.messages!.last.content,
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: const TextStyle(
-                                      fontSize: 16.0,
+                                    const SizedBox(
+                                      height: 8.0,
                                     ),
-                                  ),
-                                ],
+                                    Text(
+                                      chat.messages!.last.content,
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: const TextStyle(
+                                        fontSize: 16.0,
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ),
